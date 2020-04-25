@@ -19,6 +19,7 @@ public class FileRead {
     private List<Result> dataset;
     private List<Result> filterList;
     private List<Result> results;
+    List<Result> searchYear;
     private String date;
     private List<String> years;
     private double temperatuur;
@@ -27,7 +28,7 @@ public class FileRead {
      * Methode om het CSV file met temperaturen uit te lezen
      * @return list met data
      */
-    public List<Result> createDataFromFile() {
+    public List<Result> createDataFromFile(String inputYear) {
         // maak een list aan voor de objecten straks
         dataset = new ArrayList<>();
         results = new ArrayList<>();
@@ -60,7 +61,17 @@ public class FileRead {
             }
         }
         // kijk nu naar de jaartallen die er dubbel instaan via een andere methode en maak een unieke lijst
-        results = filterToUniqueYearsAndAverageTemp(dataset);
+        searchYear = filterToUniqueYearsAndAverageTemp(dataset);
+        // maak een nieuwe lijst op basis input year van de console
+        for(int i = 0; i < searchYear.size(); i++) {
+            Result result = searchYear.get(i);
+            if(!result.getYear().equals(inputYear)) {
+                results.add(result);
+            } else {
+                results.add(result);
+                break;
+            }
+        }
 
         // keer de lijst terug
         return results;
@@ -82,7 +93,7 @@ public class FileRead {
                // kijk of de jaren hetzelfde zijn
                if(resulti.getYear().equals(resultj.getYear())) {
                    // set de temperatuur en pak het gemiddelde
-                   temp = (temp + (resulti.getTemperature() + resultj.getTemperature()) / 2) / 2;
+                   temp = (temp + resulti.getTemperature()) / 2;
                } else { // jaar niet meer gelijk aan elkaar
                    // maak een tijdelijke lijst aan met de huidige bekende jaartallen in het eind resultaat
                    List<String> currentYears = new ArrayList<>();

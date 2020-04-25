@@ -3,19 +3,23 @@ package sequential;
 import model.Result;
 import resources.FileRead;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
     // Class variabels
     private static FileRead file;
     private static List<Result> results;
+    private static Scanner input;
 
     public static void main(String[] args) {
 
+        System.out.print("Enter max year: ");
+        input = new Scanner(System.in);
+        String inputYear = input.nextLine();
         file = new FileRead();
-        results = file.createDataFromFile();
+        results = file.createDataFromFile(inputYear);
 
         testIfFileHasLines(results);
 

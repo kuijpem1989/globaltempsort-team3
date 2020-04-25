@@ -48,13 +48,12 @@ public class FileRead {
                     date = lines[0];
                     String year = date.substring(0,4);
                     // krijg temperatuur
-                    if(lines.length == 1) {
-                        temperatuur = 0;
-                    } else {
+                    if(!(lines.length == 1)) {
                         temperatuur = Double.valueOf(lines[1]);
+                        // Vul het result in een object en in de list
+                        dataset.add(new Result(year, temperatuur));
                     }
-                    // Vul het result in een object en in de list
-                    dataset.add(new Result(year, temperatuur));
+
                 }
             } catch (FileNotFoundException e) {
                 System.out.println("Geen file gevonden");
@@ -78,7 +77,8 @@ public class FileRead {
         filterList = new ArrayList<>();
         // maak een tijdelijk object aan om begin temp te verkrijgen
         Result result = list.get(0);
-        double temp = result.getTemperature();
+        double temp = 0;
+        int count = 1;
 
         // loop over de lijst met de startindex en de eerst volgende index
         for(int i = 0; i < list.size(); i ++) {
@@ -89,7 +89,13 @@ public class FileRead {
                if(resulti.getYear().equals(resultj.getYear())) {
                    // set de temperatuur en pak het gemiddelde
                    temp += resulti.getTemperature();
+                   if(resulti.getTemperature() == 0) {
+
+                   } else {
+                       count++;
+                   }
                } else { // jaar niet meer gelijk aan elkaar
+                   temp += resulti.getTemperature();
                    // maak een tijdelijke lijst aan met de huidige bekende jaartallen in het eind resultaat
                    List<String> currentYears = new ArrayList<>();
                    for(int k = 0; k < filterList.size(); k++) {
@@ -99,9 +105,10 @@ public class FileRead {
                    // bekijk of het jaar niet al bestaat in het eindresultaat
                    if(!currentYears.contains(resulti)) {
                        // voeg een nieuw uniek object toe op jaar basis met het temperatuur
-                       filterList.add(new Result(resulti.getYear(), temp / 12));
+                       filterList.add(new Result(resulti.getYear(), temp / count));
                        // set temp naar een nieuw begin punt namelijk van waar de lijst stop bij j
-                       temp = resultj.getTemperature();
+                       temp = 0;
+                       count = 1;
                    }
                }
                break;

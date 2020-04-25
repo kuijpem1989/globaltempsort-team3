@@ -19,7 +19,7 @@ public class FileRead {
     private List<Result> dataset;
     private List<Result> filterList;
     private List<Result> results;
-    List<Result> searchYear;
+    private List<Result> searchYear;
     private String date;
     private List<String> years;
     private double temperatuur;
@@ -63,15 +63,7 @@ public class FileRead {
         // kijk nu naar de jaartallen die er dubbel instaan via een andere methode en maak een unieke lijst
         searchYear = filterToUniqueYearsAndAverageTemp(dataset);
         // maak een nieuwe lijst op basis input year van de console
-        for(int i = 0; i < searchYear.size(); i++) {
-            Result result = searchYear.get(i);
-            if(!result.getYear().equals(inputYear)) {
-                results.add(result);
-            } else {
-                results.add(result);
-                break;
-            }
-        }
+        listBasedOnInputYear(inputYear);
 
         // keer de lijst terug
         return results;
@@ -82,7 +74,7 @@ public class FileRead {
      * @param list
      * @return list
      */
-    public List<Result> filterToUniqueYearsAndAverageTemp(List<Result> list) {
+    private List<Result> filterToUniqueYearsAndAverageTemp(List<Result> list) {
         filterList = new ArrayList<>();
         double temp = 0;
 
@@ -113,6 +105,24 @@ public class FileRead {
            }
         }
         return filterList;
+    }
+
+    /**
+     * Methode die alleen een lijst maakt van de jaren die je wil
+     * @param year van de console input
+     * @return de lijst
+     */
+    private List<Result> listBasedOnInputYear(String year) {
+        for(int i = 0; i < searchYear.size(); i++) {
+            Result result = searchYear.get(i);
+            if(!result.getYear().equals(year)) {
+                results.add(result);
+            } else {
+                results.add(result);
+                break;
+            }
+        }
+        return results;
     }
 
 }

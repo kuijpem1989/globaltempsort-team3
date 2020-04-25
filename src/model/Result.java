@@ -17,4 +17,14 @@ public class Result {
     public double getTemperature() {
         return temperature;
     }
+
+    public int compareTo(Result result) {
+        if (this.temperature < result.temperature) {
+            return -1;
+        } else if (this.temperature > result.temperature) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

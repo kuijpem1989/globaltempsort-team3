@@ -32,6 +32,7 @@ public class Main {
         // lees de lijst uit op basis van de input jaar
         file = new FileRead();
         List<Result> results = file.createDataFromFile(inputYear);
+        // toon ongesorteerde lijst wanneer j
         onsorted = file.createDataFromFile(inputYear);
         onSortedPrint(answerOnSorted, inputYear);
 
@@ -48,9 +49,11 @@ public class Main {
      * @param answerOnSorted
      */
     private static void onSortedPrint(String answerOnSorted, String inputYear) {
-        System.out.println("Onsorted list:");
         if(answerOnSorted.equals("j")) {
             for(int i = 0; i < onsorted.size(); i++) {
+                if(i == 0) {
+                    System.out.println("Onsorted list:");
+                }
                 Result result = onsorted.get(i);
                 System.out.println(result.getYear() + ": " + result.getTemperature());
             }

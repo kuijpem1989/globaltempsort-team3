@@ -16,28 +16,23 @@ public class MergeSort {
     private List<Result> topTenTemps;
 
     // Constructor
-    protected MergeSort(ArrayList<Result> list) {
+    public MergeSort(ArrayList<Result> list) {
         this.list = list;
     }
 
     /**
      * De sort methode
      */
-    protected void sortTemperaturen() {
+    public void sortTemperaturen() {
         list = mergeSort(list);
     }
 
     /**
      * Toon de sorted list methode
+     * @return
      */
-    protected void toonSort() {
-        topTenTemps = list.subList(Math.max(list.size() - 10, 0), list.size());
-        System.out.println("==============================\n");
-        System.out.println("Merge sort temperaturen top 10:");
-        for (int i = 0; i < topTenTemps.size(); i++) {
-            Result result = topTenTemps.get(i);
-            System.out.println(result.getYear() + ": " + result.getTemperature());
-        }
+    public List<Result> toonSort() {
+        return topTenTemps = list.subList(Math.max(list.size() - 10, 0), list.size());
     }
 
     protected ArrayList<Result> mergeSort(ArrayList<Result> entire) {

@@ -1,6 +1,7 @@
 package resources;
 
 import model.Result;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Scanner;
  * Class dat het CSV bestand gaat uitlezen
  * @author michaelkuijpers, dennisparagusha, abdulahouali
  */
-public class FileRead {
+public class FileReadYear implements FileReader {
 
     // Class variabelen
     private Scanner fileScanner;
@@ -28,7 +29,8 @@ public class FileRead {
      * Methode om het CSV file met temperaturen uit te lezen
      * @return list met data
      */
-    public List<Result> createDataFromFile(String inputYear) {
+    @Override
+    public List<Result> createDataFromFile(String input) {
         // maak een list aan voor de objecten straks
         dataset = new ArrayList<>();
         results = new ArrayList<>();
@@ -62,7 +64,7 @@ public class FileRead {
         // kijk nu naar de jaartallen die er dubbel instaan via een andere methode en maak een unieke lijst
         searchYear = filterToUniqueYearsAndAverageTemp(dataset);
         // maak een nieuwe lijst op basis input year van de console
-        listBasedOnInputYear(inputYear);
+        listBasedOnInputYear(input);
 
         // keer de lijst terug
         return results;
@@ -82,36 +84,36 @@ public class FileRead {
 
         // loop over de lijst met de startindex en de eerst volgende index
         for(int i = 0; i < list.size(); i ++) {
-           for(int j = i + 1; j < list.size(); j++) {
-               Result resulti = list.get(i);
-               Result resultj = list.get(j);
-               // kijk of de jaren hetzelfde zijn
-               if(resulti.getYear().equals(resultj.getYear())) {
-                   // set de temperatuur en pak het gemiddelde
-                   temp += resulti.getTemperature();
-                   if(!(resulti.getTemperature() == 0)) {
+            for(int j = i + 1; j < list.size(); j++) {
+                Result resulti = list.get(i);
+                Result resultj = list.get(j);
+                // kijk of de jaren hetzelfde zijn
+                if(resulti.getYear().equals(resultj.getYear())) {
+                    // set de temperatuur en pak het gemiddelde
+                    temp += resulti.getTemperature();
+                    if(!(resulti.getTemperature() == 0)) {
                         count++;
-                   }
-               } else { // jaar niet meer gelijk aan elkaar
-                   // voeg laatste temp nog toe van het jaar
-                   temp += resulti.getTemperature();
-                   // maak een tijdelijke lijst aan met de huidige bekende jaartallen in het eind resultaat
-                   List<String> currentYears = new ArrayList<>();
-                   for(int k = 0; k < filterList.size(); k++) {
-                       Result resultk = filterList.get(k);
-                       currentYears.add(resultk.getYear());
-                   }
-                   // bekijk of het jaar niet al bestaat in het eindresultaat
-                   if(!currentYears.contains(resulti)) {
-                       // voeg een nieuw uniek object toe op jaar basis met het temperatuur
-                       filterList.add(new Result(resulti.getYear(), temp / count));
-                       // set temp naar een nieuw begin punt namelijk van waar de lijst stop bij j
-                       temp = 0;
-                       count = 1;
-                   }
-               }
-               break;
-           }
+                    }
+                } else { // jaar niet meer gelijk aan elkaar
+                    // voeg laatste temp nog toe van het jaar
+                    temp += resulti.getTemperature();
+                    // maak een tijdelijke lijst aan met de huidige bekende jaartallen in het eind resultaat
+                    List<String> currentYears = new ArrayList<>();
+                    for(int k = 0; k < filterList.size(); k++) {
+                        Result resultk = filterList.get(k);
+                        currentYears.add(resultk.getYear());
+                    }
+                    // bekijk of het jaar niet al bestaat in het eindresultaat
+                    if(!currentYears.contains(resulti)) {
+                        // voeg een nieuw uniek object toe op jaar basis met het temperatuur
+                        filterList.add(new Result(resulti.getYear(), temp / count));
+                        // set temp naar een nieuw begin punt namelijk van waar de lijst stop bij j
+                        temp = 0;
+                        count = 1;
+                    }
+                }
+                break;
+            }
         }
         return filterList;
     }
@@ -121,7 +123,7 @@ public class FileRead {
      * @param year van de console input
      * @return de lijst
      */
-    private List<Result> listBasedOnInputYear(String year) {
+    public List<Result> listBasedOnInputYear(String year) {
         for(int i = 0; i < searchYear.size(); i++) {
             Result result = searchYear.get(i);
             if(!result.getYear().equals(year)) {
@@ -135,3 +137,4 @@ public class FileRead {
     }
 
 }
+

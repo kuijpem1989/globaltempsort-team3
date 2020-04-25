@@ -1,7 +1,8 @@
 package sequential;
 
 import model.Result;
-import resources.FileRead;
+import resources.FileReadMonth;
+import resources.FileReadYear;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,57 +15,60 @@ import java.util.Scanner;
 public class Main {
 
     // Class variabels
-    private static FileRead file;
-    private static Scanner year;
-    private static Scanner askOnsorted;
-    private static List<Result> onsorted;
+    private static FileReadYear fileReadYear;
+    private static FileReadMonth fileReadMonth;
+    private static Scanner options, year, month;
 
     public static void main(String[] args) {
 
-        // Vraag om het jaartal waar je t/m wil filteren
-        System.out.print("Enter max year that you want to sort: ");
-        year = new Scanner(System.in);
-        String inputYear = year.nextLine();
+        // Vraag welke keuze
+        System.out.print("Do want to sort based on year on month y/m? ");
+        options = new Scanner(System.in);
+        String option = options.nextLine();
+        if(option.equals("j")) {
+            // Vraag om het jaartal waar je t/m wil filteren
+            System.out.print("Enter max year that you want to sort: ");
+            year = new Scanner(System.in);
+            String inputYear = year.nextLine();
 
-        // Vraag of de ongesorte lijst ook getoond moet worden
-        System.out.print("Do you also want to see the onsorted list first j/n? ");
-        askOnsorted = new Scanner(System.in);
-        String answerOnSorted = askOnsorted.nextLine();
+            // lees de lijst uit op basis van de input jaar
+            fileReadYear = new FileReadYear();
+            List<Result> results = fileReadYear.createDataFromFile(inputYear);
 
-        // lees de lijst uit op basis van de input jaar
-        file = new FileRead();
-        List<Result> results = file.createDataFromFile(inputYear);
+            // Merge sort de lijst
+            MergeSort mergeSort = new MergeSort((ArrayList<Result>) results);
+            mergeSort.sortTemperaturen();
 
-        // toon ongesorteerde lijst wanneer j
-        onsorted = file.createDataFromFile(inputYear);
-        onSortedPrint(answerOnSorted, inputYear);
+            // Toon de resultaten
+            toonTemperatures(mergeSort.toonSort());
 
-        // Merge sort de lijst
-        MergeSort test = new MergeSort((ArrayList<Result>) results);
-        test.sortTemperaturen();
+        } else if(option.equals("m")) {
+            // Vraag om het jaartal waar je t/m wil filteren
+            System.out.print("Enter max date based on YYYY-MM-DD that you want to sort: ");
+            month = new Scanner(System.in);
+            String inputMonth = month.nextLine();
 
-        // Toon de resultaten
-        test.toonSort();
+            // lees de lijst uit op basis van de input jaar
+            fileReadMonth = new FileReadMonth();
+            List<Result> results = fileReadMonth.createDataFromFile(inputMonth);
+
+            // Merge sort de lijst
+            MergeSort mergeSort = new MergeSort((ArrayList<Result>) results);
+            mergeSort.sortTemperaturen();
+
+            // Toon de resultaten
+            toonTemperatures(mergeSort.toonSort());
+        }
 
     }
 
-    /**
-     * Maakt een print wanneer er een behoefte is tot een onsorted print
-     * @param answerOnSorted
-     */
-    private static void onSortedPrint(String answerOnSorted, String inputYear) {
-        if(answerOnSorted.equals("j")) {
-            for(int i = 0; i < onsorted.size(); i++) {
-                if(i == 0) {
-                    System.out.println("Onsorted list:");
-                }
-                Result result = onsorted.get(i);
-                System.out.println(result.getYear() + ": " + result.getTemperature());
-            }
-        } else {
-            return;
-        }
+    public static void toonTemperatures(List<Result> list) {
         System.out.println("==============================\n");
+        System.out.println("Merge sort temperaturen top 10:");
+        for (int i = 0; i < list.size(); i++) {
+            Result result = list.get(i);
+            System.out.println(result.getYear() + ": " + result.getTemperature());
+        }
     }
 
 }

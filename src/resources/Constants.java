@@ -1,5 +1,9 @@
 package resources;
 
+/**
+ * Class met constanten
+ * @author michaelkuijpers, dennisparagusha, abdulahouali
+ */
 public class Constants {
 
     // De finals

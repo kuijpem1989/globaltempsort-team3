@@ -4,6 +4,10 @@ import model.Result;
 
 import java.util.ArrayList;
 
+/**
+ * Class dat een merge sort kan uitvoeren
+ * @author michaelkuijpers, dennisparagusha, abdulahouali
+ */
 public class MergeSort {
 
     // Class variabel

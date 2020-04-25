@@ -89,12 +89,11 @@ public class FileRead {
                if(resulti.getYear().equals(resultj.getYear())) {
                    // set de temperatuur en pak het gemiddelde
                    temp += resulti.getTemperature();
-                   if(resulti.getTemperature() == 0) {
-
-                   } else {
-                       count++;
+                   if(!(resulti.getTemperature() == 0)) {
+                        count++;
                    }
                } else { // jaar niet meer gelijk aan elkaar
+                   // voeg laatste temp nog toe van het jaar
                    temp += resulti.getTemperature();
                    // maak een tijdelijke lijst aan met de huidige bekende jaartallen in het eind resultaat
                    List<String> currentYears = new ArrayList<>();

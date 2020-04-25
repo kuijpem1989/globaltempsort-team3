@@ -3,6 +3,7 @@ package sequential;
 import model.Result;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class dat een merge sort kan uitvoeren
@@ -12,6 +13,7 @@ public class MergeSort {
 
     // Class variabel
     private ArrayList<Result> list;
+    private List<Result> topTenTemps;
 
     // Constructor
     protected MergeSort(ArrayList<Result> list) {
@@ -29,9 +31,11 @@ public class MergeSort {
      * Toon de sorted list methode
      */
     protected void toonSort() {
-        System.out.println("Merge sort temperaturen:");
-        for (int i = 0; i < list.size(); i++) {
-            Result result = list.get(i);
+        topTenTemps = list.subList(Math.max(list.size() - 10, 0), list.size());
+        System.out.println("==============================\n");
+        System.out.println("Merge sort temperaturen top 10:");
+        for (int i = 0; i < topTenTemps.size(); i++) {
+            Result result = topTenTemps.get(i);
             System.out.println(result.getYear() + ": " + result.getTemperature());
         }
     }

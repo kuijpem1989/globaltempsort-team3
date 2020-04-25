@@ -30,29 +30,29 @@ public class MergeSort {
      */
     protected void toonSort() {
         System.out.println("Merge sort temperaturen:");
-        for (int i=0; i< list.size();i++) {
+        for (int i = 0; i < list.size(); i++) {
             Result result = list.get(i);
             System.out.println(result.getYear() + ": " + result.getTemperature());
         }
     }
 
-    protected ArrayList<Result> mergeSort(ArrayList<Result> whole) {
+    protected ArrayList<Result> mergeSort(ArrayList<Result> entire) {
         ArrayList<Result> left = new ArrayList<>();
         ArrayList<Result> right = new ArrayList<>();
         int center;
 
-        if (whole.size() == 1) {
-            return whole;
+        if (entire.size() == 1) {
+            return entire;
         } else {
-            center = whole.size()/2;
+            center = entire.size()/2;
             // kopieer linker in een nieuwe arraylist
             for (int i = 0; i < center; i++) {
-                left.add(whole.get(i));
+                left.add(entire.get(i));
             }
 
             // kopieer rechter in een nieuwe arraylist
-            for (int i=center; i<whole.size(); i++) {
-                right.add(whole.get(i));
+            for (int i = center; i < entire.size(); i++) {
+                right.add(entire.get(i));
             }
 
             // Sort de linker en rechter helft
@@ -60,9 +60,9 @@ public class MergeSort {
             right = mergeSort(right);
 
             // merge de resultaten bij elkaar
-            merge(left, right, whole);
+            merge(left, right, entire);
         }
-        return whole;
+        return entire;
     }
 
     private void merge(ArrayList<Result> left, ArrayList<Result> right, ArrayList<Result> entire) {

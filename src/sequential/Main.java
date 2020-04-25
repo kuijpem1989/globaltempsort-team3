@@ -25,13 +25,16 @@ public class Main {
         System.out.print("Enter max year that you want to sort: ");
         year = new Scanner(System.in);
         String inputYear = year.nextLine();
+
         // Vraag of de ongesorte lijst ook getoond moet worden
         System.out.print("Do you also want to see the onsorted list first j/n? ");
         askOnsorted = new Scanner(System.in);
         String answerOnSorted = askOnsorted.nextLine();
+
         // lees de lijst uit op basis van de input jaar
         file = new FileRead();
         List<Result> results = file.createDataFromFile(inputYear);
+
         // toon ongesorteerde lijst wanneer j
         onsorted = file.createDataFromFile(inputYear);
         onSortedPrint(answerOnSorted, inputYear);
@@ -39,6 +42,7 @@ public class Main {
         // Merge sort de lijst
         MergeSort test = new MergeSort((ArrayList<Result>) results);
         test.sortTemperaturen();
+
         // Toon de resultaten
         test.toonSort();
 

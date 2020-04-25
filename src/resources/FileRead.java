@@ -76,8 +76,11 @@ public class FileRead {
      */
     private List<Result> filterToUniqueYearsAndAverageTemp(List<Result> list) {
         filterList = new ArrayList<>();
-        double temp = 0;
+        // maak een tijdelijk object aan om begin temp te verkrijgen
+        Result result = list.get(0);
+        double temp = result.getTemperature();
 
+        // loop over de lijst met de startindex en de eerst volgende index
         for(int i = 0; i < list.size(); i ++) {
            for(int j = i + 1; j < list.size(); j++) {
                Result resulti = list.get(i);
@@ -85,7 +88,7 @@ public class FileRead {
                // kijk of de jaren hetzelfde zijn
                if(resulti.getYear().equals(resultj.getYear())) {
                    // set de temperatuur en pak het gemiddelde
-                   temp = (temp + resulti.getTemperature()) / 2;
+                   temp += resulti.getTemperature();
                } else { // jaar niet meer gelijk aan elkaar
                    // maak een tijdelijke lijst aan met de huidige bekende jaartallen in het eind resultaat
                    List<String> currentYears = new ArrayList<>();
@@ -96,9 +99,9 @@ public class FileRead {
                    // bekijk of het jaar niet al bestaat in het eindresultaat
                    if(!currentYears.contains(resulti)) {
                        // voeg een nieuw uniek object toe op jaar basis met het temperatuur
-                       filterList.add(new Result(resulti.getYear(), temp));
-                       // set temp weer naar 0
-                       temp = 0;
+                       filterList.add(new Result(resulti.getYear(), temp / 12));
+                       // set temp naar een nieuw begin punt namelijk van waar de lijst stop bij j
+                       temp = resultj.getTemperature();
                    }
                }
                break;
